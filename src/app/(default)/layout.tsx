@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "../globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -37,12 +39,22 @@ export default function RootLayout({
         "font-sans",
         inter.variable,
       )}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
         <TooltipProvider>
-          <header>Header</header>
-          <main>{children}</main>
-          <footer>Footer</footer>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <header>
+              <ThemeSwitcher />
+            </header>
+            <main>{children}</main>
+            <footer>Footer</footer>
+          </ThemeProvider>
         </TooltipProvider>
       </body>
     </html>
