@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { Edit, PlusIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function PostPage() {
@@ -57,9 +57,13 @@ export default async function PostPage() {
                   {post.authorId}
                 </TableCell>
                 <TableCell className="w-1/6 truncate">
-                  <Link href={`/dashboard/posts/${post.id}/edit`}>
-                    <Button>Edit</Button>
-                  </Link>
+                  <Button
+                    nativeButton={false}
+                    render={<Link href={`/dashboard/posts/${post.id}/edit`} />}
+                  >
+                    <Edit />
+                    Edit
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
