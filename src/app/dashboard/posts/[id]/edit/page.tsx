@@ -63,6 +63,8 @@ export default function UpdateBlogPost() {
     async function fetchPostData() {
       try {
         const result = await getPost(postId);
+        // console.log(result);
+        // console.log(result.success);
 
         if (result.success && result.data) {
           form.reset({
