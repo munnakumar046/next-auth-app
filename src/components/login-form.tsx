@@ -24,7 +24,7 @@ export function LoginForm({
         callbackURL: "/dashboard",
       });
 
-      console.log(res);
+      console.log("res", res);
     } catch (error) {}
   };
 

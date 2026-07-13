@@ -13,7 +13,6 @@ import Link from "next/link";
 
 export default async function PostPage() {
   const posts = await prisma.post.findMany({});
-  // console.log(posts);
 
   return (
     <div className="px-6 py-8">
@@ -28,7 +27,6 @@ export default async function PostPage() {
 
       <div className="overflow-x-auto">
         <Table className="table-fixed w-full">
-          {/* Heading Row */}
           <TableHeader>
             <TableRow className="text-primary">
               <TableHead className="w-1/6">ID</TableHead>
@@ -40,27 +38,28 @@ export default async function PostPage() {
             </TableRow>
           </TableHeader>
 
-          {/* Data Rows */}
           <TableBody>
             {posts.reverse().map((post) => (
               <TableRow key={post.id}>
-                <TableCell className="w-1/5 truncate max-width: 150px overflow-hidden ">
+                <TableCell className="w-1/6  max-width: 150px truncate">
                   {post.id}
                 </TableCell>
-                <TableCell className="w-1/5  truncate max-width: 150px overflow-hidden">
+                <TableCell className="w-1/6  max-width: 150px truncate">
                   {post.title}
                 </TableCell>
-                <TableCell className="w-1/5  max-width: 150px overflow-hidden ">
+                <TableCell className="w-1/6  max-width: 150px truncate">
                   {post.content ?? "No content"}
                 </TableCell>
-                <TableCell className="w-1/5  truncate max-width: 150px overflow-hidden ">
+                <TableCell className="w-1/6  max-width: 150px truncate">
                   {post.published ? "✅ Published" : "❌ Draft"}
                 </TableCell>
-                <TableCell className="w-1/5 truncate max-width: 150px overflow-hidden ">
+                <TableCell className="w-1/6  max-width: 150px truncate">
                   {post.authorId}
                 </TableCell>
-                <TableCell className="w-1/5 truncate max-width: 150px overflow-hidden ">
-                  {post.authorId}
+                <TableCell className="w-1/6 truncate">
+                  <Link href={`/dashboard/posts/${post.id}/edit`}>
+                    <Button>Edit</Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

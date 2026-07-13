@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import * as z from "zod";
+import { useRouter, useParams } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,10 +29,8 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { createPost } from "../actions";
-// import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
+
+import { updatePost, getPost } from "../../actions";
 
 const formSchema = z.object({
   title: z
@@ -43,8 +43,14 @@ const formSchema = z.object({
     .max(100, "Description must be at most 100 characters."),
 });
 
-export default function CreateBlogForm() {
+export default function UpdateBlogPost() {
   const router = useRouter();
+  const params = useParams();
+  const postId = params.id as string;
+
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,19 +59,63 @@ export default function CreateBlogForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    const post = await createPost(data);
-    // console.log(post);
+  useEffect(() => {
+    async function fetchPostData() {
+      try {
+        const result = await getPost(postId);
 
-    router.push("/dashboard/posts/create");
+        if (result.success && result.data) {
+          form.reset({
+            title: result.data.title,
+            content: result.data.content ?? "",
+          });
+        } else {
+          console.error("getPost error:", result.error);
+          setNotFound(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch post data:", error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPostData();
+  }, [postId, form]);
+
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    try {
+      const post = await updatePost(postId, data);
+      console.log("Updated Post:", post);
+      router.push("/dashboard/posts");
+    } catch (error) {
+      console.error("Failed to update post:", error);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="px-5 pt-6">
+        <p className="text-muted-foreground">Loading post...</p>
+      </div>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <div className="px-5 pt-6">
+        <p className="text-destructive">Post not found.</p>
+      </div>
+    );
   }
 
   return (
     <div className="px-5 pt-6">
       <Card className="w-full ">
         <CardHeader>
-          <CardTitle>Create Blog</CardTitle>
-          <CardDescription>Create a New Post</CardDescription>
+          <CardTitle>Update Blog</CardTitle>
+          <CardDescription>Edit your Post details</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
@@ -110,7 +160,7 @@ export default function CreateBlogForm() {
                       />
                       <InputGroupAddon align="block-end">
                         <InputGroupText className="tabular-nums">
-                          {field.value.length}/100 characters
+                          {field.value?.length || 0}/100 characters
                         </InputGroupText>
                       </InputGroupAddon>
                     </InputGroup>
@@ -130,12 +180,12 @@ export default function CreateBlogForm() {
         <CardFooter>
           <Field orientation="horizontal">
             <Button type="submit" form="form-rhf-demo">
-              Submit
+              Update
             </Button>
             <Button
               type="button"
               variant="outline"
-              onClick={() => form.reset()}
+              onClick={() => router.push("/dashboard/posts")}
             >
               Cancel
             </Button>

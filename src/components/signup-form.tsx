@@ -23,7 +23,7 @@ export default function SignUpPage({
         callbackURL: "/dashboard",
       });
 
-      console.log(res);
+      // console.log(res);
     } catch (error) {}
   };
 
