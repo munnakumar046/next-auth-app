@@ -57,7 +57,7 @@ export default function CreateBlogForm() {
     const post = await createPost(data);
     // console.log(post);
 
-    router.push("/dashboard/posts/create");
+    router.push("/dashboard/posts");
   }
 
   return (
