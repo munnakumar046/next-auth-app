@@ -8,16 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit, PlusIcon } from "lucide-react";
+import { DeleteIcon, Edit, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { auth } from "@/lib/auth";
-
 
 export default async function PostPage() {
-  // const session= await auth()
-  // if (!session?.user) return null
-  // console.log(session)
- const posts = await prisma.post.findMany({});
+  const posts = await prisma.post.findMany({});
 
   return (
     <div className="px-6 py-8">
@@ -73,8 +68,9 @@ export default async function PostPage() {
                     nativeButton={false}
                     render={<Link href={`/dashboard/posts/${post.id}/edit`} />}
                   >
-                    <Edit />
-                    Edit
+                    {" "}
+                    <DeleteIcon />
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

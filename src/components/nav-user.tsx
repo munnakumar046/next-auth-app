@@ -16,7 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSession } from "@/lib/auth-client";
+import { signOut, useSession } from "@/lib/auth-client";
 import {
   EllipsisVerticalIcon,
   CircleUserRoundIcon,
@@ -37,6 +37,11 @@ export function NavUser({
   const { isMobile } = useSidebar();
   const { data } = useSession();
   console.log(data?.user.name);
+
+  const handleLogout = async () => {
+    await signOut();
+    window.location.href = "/login";
+  };
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -89,6 +94,7 @@ export function NavUser({
               </DropdownMenuLabel>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <CircleUserRoundIcon />
@@ -104,9 +110,13 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOutIcon />
-              Log out
+            <DropdownMenuItem
+              onClick={handleLogout}
+              variant="destructive"
+              className="cursor-pointer"
+            >
+              <LogOutIcon className="mr-2 h-4 w-4" />
+              <span>Log out</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  RiMenuLine,
-  RiMoonLine,
-  RiSunLine,
-} from "@remixicon/react";
+import { RiMenuLine, RiMoonLine, RiSunLine } from "@remixicon/react";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,7 +17,7 @@ import { useTheme } from "next-themes";
 import React from "react";
 
 const navLinks = [
-  { label: "Products", href: "#" },
+  { label: "Go to the Dashboard", href: "/dashboard" },
   { label: "Solutions", href: "#" },
   { label: "Pricing", href: "#" },
   { label: "Docs", href: "#" },
@@ -48,7 +44,7 @@ export default function HeaderBlock() {
             <div className="size-2.5 bg-primary" />
             <div className="size-2.5 bg-primary" />
           </div>
-          <span className="text-base font-bold tracking-tight">Acme</span>
+          <span className="text-base font-bold tracking-tight">MUNNA</span>
         </a>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex">
@@ -109,7 +105,7 @@ export default function HeaderBlock() {
                     <div className="size-2 bg-primary" />
                     <div className="size-2 bg-primary" />
                   </div>
-                  Acme
+                    MUNNA
                 </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col px-2">
@@ -142,13 +138,44 @@ export default function HeaderBlock() {
       <div className="flex-1 px-6 py-10">
         <div className="mx-auto w-full max-w-4xl">
           <div className="flex flex-col gap-3">
-            <Skeleton className="h-9 w-2/3 max-w-md" />
-            <Skeleton className="h-4 w-full max-w-xl" />
-            <Skeleton className="h-4 w-4/5 max-w-lg" />
+            <h1 className="text-3xl font-bold tracking-tight sm:text-5xl ">
+              Stories worth reading
+            </h1>
+            <p className="max-w-xl text-muted-foreground ">
+              Insights, tutorials, and updates from our team — written to help
+              you build better, ship faster, and stay ahead.
+            </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-32" />
+            {[
+              {
+                title: "In-depth tutorials",
+                description: "Step-by-step guides that go beyond the basics.",
+              },
+              {
+                title: "Weekly updates",
+                description:
+                  "Fresh posts every week on topics that matter to you.",
+              },
+              {
+                title: "Written by experts",
+                description:
+                  "Real experience from engineers and practitioners.",
+              },
+              {
+                title: "No fluff",
+                description: "Clear, concise writing that respects your time.",
+              },
+            ].map((feature) => (
+              <div
+                key={feature.title}
+                className="rounded-lg border border-border p-4"
+              >
+                <h3 className="font-semibold">{feature.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {feature.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>

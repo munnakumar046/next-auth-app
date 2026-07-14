@@ -1,22 +1,20 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import ContactBlock from '@/components/contact-block'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
-export default function Home() {
+function HomePage() {
   return (
-    <main className="flex items-center justify-center h-screen">
-      <div className="flex gap-4">
-        <div className="space-y-10">
-          {/* <MarqueeDemo />
-          <MarqueeGrayscaleDemo /> */}
-        </div>
-        <Button>
+    <div className=" justify-center text-center">
+      <ContactBlock />
+       {/* <Button>
           <Link href="/signup">Sign Up</Link>
         </Button>
 
         <Button>
           <Link href="/login">Sign In</Link>
-        </Button>
-      </div>
-    </main>
-  );
+        </Button> */}
+    </div>
+  )
 }
+
+export default HomePage

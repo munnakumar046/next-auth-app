@@ -46,6 +46,7 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
+                className=" hover:bg-primary/90 hover:text-primary-foreground"
                 tooltip={item.title}
                 render={<Link href={item.url} />}
               >
