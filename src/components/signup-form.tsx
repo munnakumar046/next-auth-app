@@ -109,7 +109,7 @@ export default function SignUpPage({
                 </Button>
               </Field>
               <FieldDescription className="text-center">
-                Already have an account? <a href="#">Sign in</a>
+                Already have an account? <a href="/login">Sign in</a>
               </FieldDescription>
             </FieldGroup>
           </form>
